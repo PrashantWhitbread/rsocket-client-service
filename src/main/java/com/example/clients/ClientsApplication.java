@@ -69,8 +69,41 @@ public class ClientsApplication {
           .retrieveSubscription("greeting")
           .toEntity(String.class)
           .subscribe(System.out::println); **/
-      Flux<String> greetingFlux = websocket.document("subscription { greetings } ")
+      /*Flux<String> greetingFlux = websocket.document("subscription { greetings } ")
           .retrieveSubscription("greetings")
+          .toEntity(String.class);
+      greetingFlux.subscribe(System.out::println);*/
+
+      var mockServerReqDoc = "subscription {\n"
+          + "\t\t\t\t\t      hotelAvailability {\n"
+          + "\t\t\t\t\t          businessEventData {\n"
+          + "\t\t\t\t\t              businessEvent {\n"
+          + "\t\t\t\t\t                  header {\n"
+          + "\t\t\t\t\t                      moduleName,\n"
+          + "\t\t\t\t\t                      actionType,\n"
+          + "\t\t\t\t\t                      actionId,\n"
+          + "\t\t\t\t\t                      primaryKey,\n"
+          + "\t\t\t\t\t                      publisherId,\n"
+          + "\t\t\t\t\t                      createdDateTime,\n"
+          + "\t\t\t\t\t                      hotelId,\n"
+          + "\t\t\t\t\t                  },\n"
+          + "\t\t\t\t\t                  details {\n"
+          + "\t\t\t\t\t                      businessEventDetails{\n"
+          + "\t\t\t\t\t                          dataElement,\n"
+          + "\t\t\t\t\t                          newValue,\n"
+          + "\t\t\t\t\t                          oldValue,\n"
+          + "\t\t\t\t\t                      }\n"
+          + "\t\t\t\t\t                  }\n"
+          + "\t\t\t\t\t              },\n"
+          + "\t\t\t\t\t              businessEventId {\n"
+          + "\t\t\t\t\t                  id,\n"
+          + "\t\t\t\t\t              }\n"
+          + "\t\t\t\t\t          }\n"
+          + "\t\t\t\t\t      }\n"
+          + "\t\t\t\t\t  }";
+
+      Flux<String> greetingFlux = websocket.document(mockServerReqDoc)
+          .retrieveSubscription("hotelAvailability")
           .toEntity(String.class);
       greetingFlux.subscribe(System.out::println);
 		};
